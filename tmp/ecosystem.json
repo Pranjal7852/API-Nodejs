@@ -1,0 +1,14 @@
+{
+  "apps": [
+    {
+      "name": "nimbus-api",
+      "script": "npm",
+      "args": "run start",
+      "watch": false,
+      "cwd": "/var/www/nimbus-api/",
+      "merge_logs": true,
+      "instances": 1,
+      "exec_mode": "cluster"
+    }
+  ]
+}

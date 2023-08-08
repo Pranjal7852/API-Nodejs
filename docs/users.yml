@@ -1,0 +1,153 @@
+openapi: '3.0.0'
+
+info:
+  title: Users
+  version: 1.0.0
+
+tags:
+  - name: Users
+    description: Users
+
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        username:
+          type: string
+          description: Creator of the event
+        name:
+          type: string
+          description: Display name of user
+        description:
+          type: string
+          description: description of user/club
+        email:
+          type: string
+          description: Contact email of user
+        website:
+          type: string
+          description: Website
+        password:
+          type: string
+          description: Hashed password
+        logo:
+          type: string
+          description: user/club logo url
+
+  # --------------- REQUEST BODIES -------------------
+  requestBodies:
+    UserBody:
+      description: User form body
+      required: true
+      content:
+        multipart/form-data:
+          schema:
+            type: object
+            properties:
+              username:
+                type: string
+                description: Creator of the event
+              name:
+                type: string
+                description: Display name of user
+              description:
+                type: string
+                description: description of user/club
+              email:
+                type: string
+                description: Contact email of user
+              website:
+                type: string
+                description: Website
+              password:
+                type: string
+                description: Password password
+              logo:
+                type: string
+                format: binary
+                description: Club logo
+
+# -------------------- ROUTES -----------------
+paths:
+  /api/users:
+    get:
+      summary: Get all users
+      tags: [Users]
+      responses:
+        200:
+          description: A list of users
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+
+    post:
+      security:
+        - bearerAuth: []
+      summary: Create a user
+      tags: [Users]
+      requestBody:
+        $ref: '#/components/requestBodies/UserBody'
+      responses:
+        201:
+          description: A successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        400:
+          description: Bad request
+
+  /api/users/{username}:
+    put:
+      security:
+        - bearerAuth: []
+      summary: Update a user
+      tags: [Users]
+      parameters:
+        - in: path
+          name: username
+          schema:
+            type: string
+          required: true
+          description: Username of user
+      requestBody:
+        $ref: '#/components/requestBodies/UserBody'
+      responses:
+        200:
+          description: A successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        400:
+          description: Bad request
+        401:
+          description: Unauthorized
+
+    delete:
+      security:
+        - bearerAuth: []
+      summary: Delete a user
+      tags: [Users]
+      parameters:
+        - in: path
+          name: username
+          schema:
+            type: string
+          required: true
+          description: Username of user
+      responses:
+        200:
+          description: A successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        400:
+          description: Bad request
+        401:
+          description: Unauthorized

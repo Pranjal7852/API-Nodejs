@@ -1,0 +1,177 @@
+openapi: '3.0.0'
+
+info:
+  title: Events
+  version: 1.0.0
+
+tags:
+  - name: Events
+    description: Events
+
+components:
+  # --------------- SCHEMAS -------------------
+  schemas:
+    Event:
+      type: object
+      properties:
+        id:
+          type: number
+          description: Id of the event
+        name:
+          type: string
+          description: Display name of event
+        type:
+          type: string
+          enum: [DEPARTMENTAL, MAJOR, LECTURE, WORKSHOP, EXHIBITION]
+          description: Event Type
+        shortDescription:
+          type: string
+          description: Short description of event
+        description:
+          type: string
+          description: Full description of event. supports Markup
+        from:
+          type: string
+          format: date-time
+          description: Starting from
+        to:
+          type: string
+          format: date-time
+          description: Event ends on
+        registrationUrl:
+          type: string
+          description: Registration URL
+        image:
+          type: string
+          description: Poster of event
+        pdf:
+          type: string
+          description: Optional pdf
+        username:
+          type: string
+          description: Creator of event
+        user:
+          type: string
+          description: Creator of event
+
+  # --------------- REQUEST BODIES -------------------
+  requestBodies:
+    EventBody:
+      description: Event form body
+      required: true
+      content:
+        multipart/form-data:
+          schema:
+            type: object
+            properties:
+              name:
+                type: string
+                description: Display name of event
+              type:
+                type: string
+                enum: [DEPARTMENTAL, MAJOR, LECTURE, WORKSHOP, EXHIBITION]
+                example: DEPARTMENTAL
+                description: Event Type
+              shortDescription:
+                type: string
+                description: Short description of event
+              description:
+                type: string
+                description: Full description of event. supports Markup
+              from:
+                type: string
+                format: date-time
+                description: Starting from
+              to:
+                type: string
+                format: date-time
+                description: Event ends on
+              registrationUrl:
+                type: string
+                description: Registration URL
+              image:
+                type: string
+                format: binary
+                description: Poster of event
+              pdf:
+                type: string
+                format: binary
+                description: Optional pdf
+
+# -------------------------- ROUTES ---------------------------------
+paths:
+  /api/events:
+    get:
+      summary: Get all events
+      tags: [Events]
+      responses:
+        200:
+          description: A successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Event'
+
+    post:
+      security:
+        - bearerAuth: []
+      summary: Create an event
+      tags: [Events]
+      requestBody:
+        $ref: '#/components/requestBodies/EventBody'
+      responses:
+        200:
+          description: A successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Event'
+
+  /api/events/{id}:
+    put:
+      security:
+        - bearerAuth: []
+      summary: Update an event
+      tags: [Events]
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: number
+          required: true
+          description: id
+      requestBody:
+        $ref: '#/components/requestBodies/EventBody'
+      responses:
+        200:
+          description: A successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Event'
+
+    delete:
+      security:
+        - bearerAuth: []
+      summary: Delete a Event
+      tags: [Events]
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: number
+          required: true
+          description: id of the event
+      responses:
+        200:
+          description: A successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Event'
+        400:
+          description: Bad request
+        401:
+          description: Unauthorized

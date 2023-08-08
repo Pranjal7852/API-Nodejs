@@ -1,0 +1,10 @@
+{
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "[prisma]": {
+    "editor.defaultFormatter": null
+  },
+  "editor.formatOnSave": true,
+  "prettier.useTabs": false,
+  "prettier.tabWidth": 2,
+  "editor.tabSize": 2
+}

@@ -1,0 +1,38 @@
+{
+  "name": "nimbus-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon --delay 500ms index.js",
+    "migrate": "prisma migrate dev --name 'migrate'",
+    "format": "prettier -w .",
+    "lint": "eslint --ext .js .",
+    "lint:fix": "eslint --fix --ext .js ."
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@prisma/client": "^3.3.0",
+    "axios": "^0.25.0",
+    "bcrypt": "^5.0.1",
+    "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
+    "eslint": "^8.8.0",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "morgan": "^1.10.0",
+    "multer": "^1.4.4",
+    "nodemon": "^2.0.14",
+    "prettier": "^2.5.1",
+    "swagger-jsdoc": "^6.1.0",
+    "swagger-ui-express": "^4.1.6",
+    "yup": "^0.32.11"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.13",
+    "@types/node": "^17.0.16",
+    "prisma": "^3.3.0"
+  }
+}

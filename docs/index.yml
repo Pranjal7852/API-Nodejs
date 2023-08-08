@@ -1,0 +1,29 @@
+openapi: '3.0.0'
+info:
+  title: App
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:5000/
+    description: Local server (uses data from your local DB)
+  - url: https://api.hillfairnith.com/
+    description: Production server (uses live data)
+
+components:
+  securitySchemes:
+    bearerAuth: # arbitrary name for the security scheme
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+paths:
+  /:
+    get:
+      summary: Nimbus API
+      responses:
+        200:
+          description: A list of users
+          content:
+            application/json:
+              schema:
+                type: object

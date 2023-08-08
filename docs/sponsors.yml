@@ -1,0 +1,144 @@
+openapi: '3.0.0'
+
+info:
+  title: Sponsors
+  version: 1.0.0
+
+tags:
+  - name: Sponsors
+    description: Sponsors
+
+components:
+  schemas:
+    Sponsor:
+      type: object
+      properties:
+        id:
+          type: number
+          description: Id of the sponsor
+        name:
+          type: string
+          description: Name of the sponsor
+        description:
+          type: string
+          description: Short description about the sponsor
+        image:
+          type: string
+          description: Logo of the sponsor
+        website:
+          type: string
+          description: Link for the sponsor's site
+        level:
+          type: number
+          description: Level of sponsor
+
+  # --------------- REQUEST BODIES -------------------
+  requestBodies:
+    SponsorBody:
+      description: Sponsor form body
+      required: true
+      content:
+        multipart/form-data:
+          schema:
+            type: object
+            properties:
+              name:
+                type: string
+                description: Name of the sponsor
+              description:
+                type: string
+                description: Short description about the sponsor
+              image:
+                type: string
+                format: binary
+                description: Logo of the sponsor
+              website:
+                type: string
+                description: Link for the sponsor's site
+              level:
+                type: number
+                description: Level of sponsor
+
+# -------------------- ROUTES -----------------
+paths:
+  /api/sponsors:
+    get:
+      summary: Get all sponsors
+      tags: [Sponsors]
+      responses:
+        200:
+          description: A list of sponsors
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Sponsor'
+
+    post:
+      security:
+        - bearerAuth: []
+      summary: Create a sponsor
+      tags: [Sponsors]
+      requestBody:
+        $ref: '#/components/requestBodies/SponsorBody'
+      responses:
+        201:
+          description: A successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Sponsor'
+        400:
+          description: Bad request
+
+  /api/sponsors/{id}:
+    put:
+      security:
+        - bearerAuth: []
+      summary: Update a sponsor
+      tags: [Sponsors]
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: Id of sponsor
+      requestBody:
+        $ref: '#/components/requestBodies/SponsorBody'
+      responses:
+        200:
+          description: A successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Sponsor'
+        400:
+          description: Bad request
+        401:
+          description: Unauthorized
+
+    delete:
+      security:
+        - bearerAuth: []
+      summary: Delete a sponsor
+      tags: [Sponsors]
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: Id of sponsor
+      responses:
+        200:
+          description: A successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Sponsor'
+        400:
+          description: Bad request
+        401:
+          description: Unauthorized

@@ -1,0 +1,52 @@
+openapi: 3.0.0
+
+info:
+  title: Auth
+  version: 1.0.0
+tags:
+  - name: Auth
+    description: Auth
+
+# -------------------- ROUTES -----------------
+paths:
+  /api/auth:
+    post:
+      summary: Authenticate and get auth token
+      tags: [Auth]
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+      responses:
+        200:
+          description: A successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+                    description: JWT token
+                  user:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        description: User ID
+                      username:
+                        type: string
+                        description: Username
+                      email:
+                        type: string
+                        description: Email
+                      updated_at:
+                        type: string
+                        format: date-time
+                        description: Updated at
